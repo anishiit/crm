@@ -73,12 +73,30 @@ const initialTickets = [
   },
 ]
 
+interface Ticket {
+  id: number
+  title: string
+  description: string
+  status: string
+  priority: string
+  assignedTo: string
+  customer: string
+  createdAt: string
+}
+interface NewTicket {
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  assignedTo: string;
+  customer: string;
+}
 export default function TicketsPage() {
-  const [tickets, setTickets] = useState(initialTickets)
+  const [tickets, setTickets] = useState<Ticket[]>(initialTickets)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [priorityFilter, setPriorityFilter] = useState("all")
-  const [newTicket, setNewTicket] = useState({
+  const [newTicket, setNewTicket] = useState<NewTicket>({
     title: "",
     description: "",
     status: "Open",
@@ -86,13 +104,13 @@ export default function TicketsPage() {
     assignedTo: "Unassigned",
     customer: "",
   })
-  const [editingTicket, setEditingTicket] = useState(null)
+  const [editingTicket, setEditingTicket] = useState<Ticket | null>(null)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [ticketToView, setTicketToView] = useState(null)
-  const [ticketToDelete, setTicketToDelete] = useState(null)
+  const [ticketToView, setTicketToView] = useState<Ticket | null>(null)
+  const [ticketToDelete, setTicketToDelete] = useState<Ticket | null>(null)
 
   const filteredTickets = tickets.filter((ticket) => {
     const matchesSearch =
@@ -122,16 +140,18 @@ export default function TicketsPage() {
   }
 
   const handleEditTicket = () => {
+    if(!editingTicket) return
     setTickets(tickets.map((ticket) => (ticket.id === editingTicket.id ? editingTicket : ticket)))
     setIsEditDialogOpen(false)
   }
 
   const handleDeleteTicket = () => {
+    if(!ticketToDelete) return
     setTickets(tickets.filter((ticket) => ticket.id !== ticketToDelete.id))
     setIsDeleteDialogOpen(false)
   }
 
-  const getPriorityIcon = (priority) => {
+  const getPriorityIcon = (priority: "High" | "Medium" | "Low") => {
     switch (priority) {
       case "High":
         return <AlertCircle className="h-4 w-4 text-red-500" />
@@ -144,7 +164,7 @@ export default function TicketsPage() {
     }
   }
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status : "Open" | "In Progress" | "Resolved" | "Closed") => {
     switch (status) {
       case "Open":
         return "bg-blue-100 text-blue-800"
@@ -159,7 +179,7 @@ export default function TicketsPage() {
     }
   }
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return new Intl.DateTimeFormat("en-US", {
       year: "numeric",
@@ -337,15 +357,15 @@ export default function TicketsPage() {
                   <TableCell className="font-medium">{ticket.title}</TableCell>
                   <TableCell className="hidden md:table-cell">{ticket.customer}</TableCell>
                   <TableCell className="hidden md:table-cell">
-                    <span
-                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusColor(ticket.status)}`}
-                    >
-                      {ticket.status}
-                    </span>
+                  <span
+  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusColor(ticket.status as "Open" | "In Progress" | "Resolved" | "Closed")}`}
+>
+  {ticket.status}
+</span>
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
                     <div className="flex items-center gap-1">
-                      {getPriorityIcon(ticket.priority)}
+                      {getPriorityIcon(ticket.priority  as "High" | "Medium" | "Low")}
                       <span>{ticket.priority}</span>
                     </div>
                   </TableCell>
@@ -380,15 +400,15 @@ export default function TicketsPage() {
                                 <div>
                                   <p className="text-sm font-medium">Status</p>
                                   <span
-                                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusColor(ticketToView.status)}`}
-                                  >
-                                    {ticketToView.status}
-                                  </span>
+  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusColor(ticketToView.status as "Open" | "In Progress" | "Resolved" | "Closed")}`}
+>
+  {ticketToView.status}
+</span>
                                 </div>
                                 <div>
                                   <p className="text-sm font-medium">Priority</p>
                                   <div className="flex items-center gap-1">
-                                    {getPriorityIcon(ticketToView.priority)}
+                                    {getPriorityIcon(ticketToView.priority as "High" | "Medium" | "Low")}
                                     <span>{ticketToView.priority}</span>
                                   </div>
                                 </div>

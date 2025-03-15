@@ -60,6 +60,13 @@ const initialFaqs = [
     views: 689,
   },
 ]
+interface Faq {
+  id: number
+  question: string
+  answer: string  
+  category: string
+  views: number
+}
 
 const categories = ["Account", "Billing", "Data", "Security", "General"]
 
@@ -68,11 +75,11 @@ export default function FaqsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [newFaq, setNewFaq] = useState({ question: "", answer: "", category: "General" })
-  const [editingFaq, setEditingFaq] = useState(null)
+  const [editingFaq, setEditingFaq] = useState<Faq | null>(null)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [faqToDelete, setFaqToDelete] = useState(null)
+  const [faqToDelete, setFaqToDelete] = useState<Faq | null>(null)
 
   const filteredFaqs = faqs.filter((faq) => {
     const matchesSearch =
@@ -92,11 +99,13 @@ export default function FaqsPage() {
   }
 
   const handleEditFaq = () => {
+    if(!editingFaq) return
     setFaqs(faqs.map((faq) => (faq.id === editingFaq.id ? editingFaq : faq)))
     setIsEditDialogOpen(false)
   }
 
   const handleDeleteFaq = () => {
+    if(!faqToDelete) return
     setFaqs(faqs.filter((faq) => faq.id !== faqToDelete.id))
     setIsDeleteDialogOpen(false)
   }

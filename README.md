@@ -208,7 +208,18 @@ graph TD;
 ## Data Flow
 
 ```mermaid
-%% Include data-flow.mermaid content here
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant Database
+    
+    User->>Frontend: Interacts with UI
+    Frontend->>Backend: API Request
+    Backend->>Database: Query Data
+    Database->>Backend: Return Results
+    Backend->>Frontend: JSON Response
+    Frontend->>User: Update UI
 ```
 
 ## Contributing

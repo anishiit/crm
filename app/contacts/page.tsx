@@ -62,16 +62,26 @@ const initialContacts = [
   },
 ]
 
+// Add this interface before the ContactsPage component
+interface Contact {
+  id: number
+  name: string
+  email: string
+  phone: string
+  company: string
+  status: string
+}
+
 export default function ContactsPage() {
   const [contacts, setContacts] = useState(initialContacts)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [newContact, setNewContact] = useState({ name: "", email: "", phone: "", company: "", status: "Active" })
-  const [editingContact, setEditingContact] = useState(null)
+  const [editingContact, setEditingContact] = useState<Contact | null>(null)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [contactToDelete, setContactToDelete] = useState(null)
+  const [contactToDelete, setContactToDelete] = useState<Contact | null>(null)
 
   const filteredContacts = contacts.filter((contact) => {
     const matchesSearch =
@@ -92,12 +102,14 @@ export default function ContactsPage() {
   }
 
   const handleEditContact = () => {
+    if (!editingContact) return;
     setContacts(contacts.map((contact) => (contact.id === editingContact.id ? editingContact : contact)))
     setIsEditDialogOpen(false)
   }
 
   const handleDeleteContact = () => {
-    setContacts(contacts.filter((contact) => contact.id !== contactToDelete.id))
+    if (!contactToDelete) return;
+    setContacts(contacts.filter((contact) => contact.id !== contactToDelete.id ))
     setIsDeleteDialogOpen(false)
   }
 

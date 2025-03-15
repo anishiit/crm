@@ -182,8 +182,27 @@ The backend API will be available at `http://localhost:8080`
 
 ## System Architecture
 
+
 ```mermaid
-%% Include system-architecture.mermaid content here
+graph TD;
+    A["Client Browser"] -->|HTTP Requests| B["Next.js Frontend"]
+    B -->|API Calls| C["Spring Boot Backend"]
+    C -->|JPA/Hibernate| D["PostgreSQL Database"]
+    
+    subgraph "Frontend Layer"
+    B -->|Pages| E["React Components"]
+    E -->|State Management| F["React Hooks"]
+    end
+    
+    subgraph "Backend Layer"
+    C -->|REST Controllers| G["Service Layer"]
+    G -->|Business Logic| H["Repository Layer"]
+    end
+    
+    subgraph "Data Layer"
+    H -->|SQL Queries| D
+    D -->|Data| H
+    end
 ```
 
 ## Data Flow
@@ -196,6 +215,4 @@ The backend API will be available at `http://localhost:8080`
 
 Contributions are welcome! Feel free to submit a pull request or open an issue.
 
-## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

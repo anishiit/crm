@@ -21,7 +21,7 @@ export default function DashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back! Here's what's happening today.</p>
+          <p className="text-muted-foreground">Welcome back! Here&apos;s what&apos;s happening today.</p>
         </div>
         <div className="mt-4 md:mt-0 flex gap-2">
           <Button variant="outline" className="rounded-full">
@@ -135,7 +135,7 @@ export default function DashboardPage() {
 
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
-                    <div className="font-medium">Can't access account after password reset</div>
+                    <div className="font-medium">Can&apos;t access account after password reset</div>
                     <div className="text-sm text-muted-foreground">Jane Smith • 5 hours ago</div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -239,7 +239,7 @@ export default function DashboardPage() {
                 <div className="border-b pb-4">
                   <div className="font-medium">How do I reset my password?</div>
                   <div className="text-sm text-muted-foreground mt-1">
-                    To reset your password, click on the "Forgot Password" link on the login page and follow the
+                    To reset your password, click on the &quot;Forgot Password&quot; link on the login page and follow the
                     instructions sent to your email.
                   </div>
                   <div className="text-xs text-muted-foreground mt-2">Views: 1,245</div>
